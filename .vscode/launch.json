@@ -1,0 +1,16 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Debug demo1",
+            "type": "coreclr",
+            "request": "launch",
+            "preLaunchTask": "build-demo1",
+            "program": "${workspaceFolder}/demo1/bin/Debug/netcoreapp3.0/demo1.dll",
+            "args": [],
+            "cwd": "${workspaceFolder}/demo1",
+            "console": "internalConsole",
+            "stopAtEntry": false
+        }
+    ]
+}

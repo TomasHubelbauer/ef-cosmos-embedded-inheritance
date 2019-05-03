@@ -56,7 +56,7 @@ public sealed class Admin = {
 
 This by itself should work. We will need to add `HasBaseType` most likely, but then it should work.
 
-- [ ] Demonstrate this
+Check out the [first demo](demo1) showing this.
 
 By default EF Core will never embed anything unless configured by `OwnsOne` or `OwnsMany`.
 
