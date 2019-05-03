@@ -58,6 +58,13 @@ This by itself should work. We will need to add `HasBaseType` most likely, but t
 
 Check out the [first demo](demo1) showing this.
 
+Note that OmniSharp is getting confused with multiple projects in different folders!
+
+This will not work without a base type - so with the base type of `object`.
+EF Core explicitly doesn't support navigation properties with `object` or `dynamic` types.
+
+You can see the [second demo](demo2) where this is attempted and throws.
+
 By default EF Core will never embed anything unless configured by `OwnsOne` or `OwnsMany`.
 
 - [ ] Demonstrate `OwnsOne` and `OwnsMany` with a non-inheriting entity
