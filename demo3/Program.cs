@@ -1,0 +1,96 @@
+﻿using System;
+using System.Net.Http;
+using System.Text.RegularExpressions;
+using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
+
+namespace demo3
+{
+  class Program
+  {
+    static async Task Main(string[] args)
+    {
+      string primaryKey;
+      try
+      {
+        Console.WriteLine("Downloading the primary key from https://localhost:8081/_explorer/quickstart.html…");
+        var html = await new HttpClient().GetStringAsync("https://localhost:8081/_explorer/quickstart.html");
+        primaryKey = Regex.Match(html, "Primary Key</p>\\s+<input .* value=\"(?<primaryKey>.*)\"").Groups["primaryKey"].Value;
+        Console.WriteLine("The primary key has been downloaded.");
+      }
+      catch
+      {
+        Console.WriteLine("Failed to download the primary key. Make sure to install and run the Cosmos emulator.");
+        Console.WriteLine("The primary key gets downloaded from https://localhost:8081/_explorer/quickstart.html");
+        return;
+      }
+
+      using (var appDbContext = new AppDbContext(primaryKey))
+      {
+        await appDbContext.Database.EnsureDeletedAsync();
+        await appDbContext.Database.EnsureCreatedAsync();
+        await appDbContext.Admins.AddAsync(new Admin
+        {
+          FirstName = "Tomas",
+          LastName = "Hubelbauer",
+          FavoriteLookup = new LookupByFirstName
+          {
+            FirstName = "Tomas",
+          },
+        });
+
+        await appDbContext.SaveChangesAsync();
+      }
+
+      // See the Cosmos Emulator Data Explorer to check the entity got embedded
+    }
+  }
+
+  public class AppDbContext : DbContext
+  {
+    private string primaryKey;
+
+    public AppDbContext(string primaryKey)
+    {
+      this.primaryKey = primaryKey;
+    }
+
+    public DbSet<Admin> Admins { get; set; }
+    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+    {
+      optionsBuilder.UseCosmos("https://localhost:8081", this.primaryKey, nameof(demo3));
+    }
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    {
+      modelBuilder.Entity<LookupByFirstName>().HasBaseType<Lookup>();
+      modelBuilder.Entity<LookupByLastName>().HasBaseType<Lookup>();
+      modelBuilder.Entity<LookupByEmploymentInDateAndTimeRange>().HasBaseType<Lookup>();
+      modelBuilder.Entity<Admin>().OwnsOne(admin => admin.FavoriteLookup);
+    }
+  }
+
+  public sealed class Admin
+  {
+    public Guid Id { get; set; }
+    public string FirstName { get; set; }
+    public string LastName { get; set; }
+    public Lookup FavoriteLookup { get; set; }
+  }
+  public abstract class Lookup
+  {
+    public Guid Id { get; set; }
+  }
+  public sealed class LookupByFirstName : Lookup
+  {
+    public string FirstName { get; set; }
+  }
+  public sealed class LookupByLastName : Lookup
+  {
+    public string LastName { get; set; }
+  }
+  public sealed class LookupByEmploymentInDateAndTimeRange : Lookup
+  {
+    public DateTime From { get; set; }
+    public DateTime To { get; set; }
+  }
+}
