@@ -58,7 +58,8 @@ This by itself should work. We will need to add `HasBaseType` most likely, but t
 
 Check out the [first demo](demo1) showing this.
 
-Note that OmniSharp is getting confused with multiple projects in different folders!
+Note that OmniSharp is getting confused with multiple projects in different folders without SLN
+files so all demos have a corresponding SLN file.
 
 This will not work without a base type - so with the base type of `object`.
 EF Core explicitly doesn't support navigation properties with `object` or `dynamic` types.
