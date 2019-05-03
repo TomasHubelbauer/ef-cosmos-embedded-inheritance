@@ -22,6 +22,17 @@
             "cwd": "${workspaceFolder}/demo2",
             "console": "internalConsole",
             "stopAtEntry": false
+        },
+        {
+            "name": "Debug demo3",
+            "type": "coreclr",
+            "request": "launch",
+            "preLaunchTask": "build-demo3",
+            "program": "${workspaceFolder}/demo3/bin/Debug/netcoreapp3.0/demo3.dll",
+            "args": [],
+            "cwd": "${workspaceFolder}/demo3",
+            "console": "internalConsole",
+            "stopAtEntry": false
         }
     ]
 }

@@ -20,6 +20,16 @@
                 "${workspaceFolder}/demo2/demo2.csproj"
             ],
             "problemMatcher": "$tsc"
+        },
+        {
+            "label": "build-demo3",
+            "command": "dotnet",
+            "type": "process",
+            "args": [
+                "build",
+                "${workspaceFolder}/demo3/demo3.csproj"
+            ],
+            "problemMatcher": "$tsc"
         }
     ]
 }

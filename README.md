@@ -75,8 +75,19 @@ It is not available further in the fluent API chain, so we will not be able to e
 (`Admin`) has a navigation property (`FavoriteLookup`) whose values is a union of possible types with a shared
 base (`Lookup`).
 
-- [ ] Try to use `OwnsOne` on `FavoriteLookup`
-- [ ] Try to use `OwnsMany` and introduce multiple favorites
-
 This is either a bug or a missing feature or a technical limitation of EF Core.
 I want to find out which is it, so I am creating this demo to attach to a GitHub issue I will created in EF Core.
+
+Or so I thought… But the [third demo](demo3) clearly shows it is possible to have an embedded entity which is
+at the same time a union type.
+
+This contrasts with my other experiment, [ef-cosmos-union-type](https://github.com/TomasHubelbauer/ef-cosmos-union-type),
+where turning on `OwnsOne` causes a model validation exception I also face in the real app I am building.
+
+So there must be something between this simple schema in `demo3` and the more complex one in `ef-cosmos-union-type`
+which causes the error and it might be the longer embeddance chain.
+
+- [ ] Embed `Admin` into something else to prolong the embedance chain to see if that causes an error
+- [ ] See if this is 
+
+- [ ] Try to use `OwnsMany` and introduce multiple favorites
