@@ -87,7 +87,8 @@ where turning on `OwnsOne` causes a model validation exception I also face in th
 So there must be something between this simple schema in `demo3` and the more complex one in `ef-cosmos-union-type`
 which causes the error and it might be the longer embeddance chain.
 
-- [ ] Embed `Admin` into something else to prolong the embedance chain to see if that causes an error
-- [ ] See if this is 
+## To-Do
 
-- [ ] Try to use `OwnsMany` and introduce multiple favorites
+### Embed `Admin` into something else to prolong the embedance chain to see if that causes an error
+
+### Try to use `OwnsMany` and introduce multiple favorites
